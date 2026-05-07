@@ -1,0 +1,103 @@
+{
+  "@context": {
+    "@language": "en",
+    "@vocab": "https://schema.org/",
+    "citeAs": "cr:citeAs",
+    "column": "cr:column",
+    "conformsTo": "dct:conformsTo",
+    "cr": "http://mlcommons.org/croissant/",
+    "rai": "http://mlcommons.org/croissant/RAI/",
+    "data": {
+      "@id": "cr:data",
+      "@type": "@json"
+    },
+    "dataType": {
+      "@id": "cr:dataType",
+      "@type": "@vocab"
+    },
+    "dct": "http://purl.org/dc/terms/",
+    "examples": {
+      "@id": "cr:examples",
+      "@type": "@json"
+    },
+    "extract": "cr:extract",
+    "field": "cr:field",
+    "fileObject": "cr:fileObject",
+    "fileSet": "cr:fileSet",
+    "format": "cr:format",
+    "includes": "cr:includes",
+    "isLiveDataset": "cr:isLiveDataset",
+    "jsonPath": "cr:jsonPath",
+    "key": "cr:key",
+    "md5": "cr:md5",
+    "parentField": "cr:parentField",
+    "path": "cr:path",
+    "recordSet": "cr:recordSet",
+    "references": "cr:references",
+    "regex": "cr:regex",
+    "repeated": "cr:repeated",
+    "replace": "cr:replace",
+    "sc": "https://schema.org/",
+    "separator": "cr:separator",
+    "source": "cr:source",
+    "subField": "cr:subField",
+    "transform": "cr:transform",
+    "wd": "https://www.wikidata.org/wiki/"
+  },
+  "@type": "sc:Dataset",
+  "name": "WARP-OPF-Case118-DualLabeled",
+  "description": "Dual-labeled AC Optimal Power Flow dataset with IPOPT-converged primal-dual-barrier tensors for interior-point warm-start benchmarking on pglib_opf_case118_ieee (PyG OPFDataset). Each split archive contains duals_XXXXXX.pt files with keys x, lam_g, zl, zu, mu, obj.",
+  "conformsTo": "http://mlcommons.org/croissant/1.0",
+  "citeAs": "NeurIPS 2026 Evaluations & Datasets Track \u2014 why primal-only warm-starts fail for interior-point solvers on AC-OPF (anonymous submission).",
+  "license": "MIT",
+  "url": "https://huggingface.co/datasets/dhruvsuri17/warp-opf-case118-dual",
+  "sameAs": [
+    "https://www.openml.org/d/DATASET_ID",
+    "https://huggingface.co/datasets/dhruvsuri17/warp-opf-case118-dual"
+  ],
+  "version": "1.0.0",
+  "datePublished": "2026-05-06",
+  "creator": {
+    "@type": "Organization",
+    "name": "Anonymous (NeurIPS 2026 submission)"
+  },
+  "distribution": [
+    {
+      "@type": "cr:FileObject",
+      "@id": "train.tar.gz",
+      "name": "train.tar.gz",
+      "description": "Dual-label tensors for OPFDataset split `train` (PyTorch .pt files, gzip tar).",
+      "contentSize": "24930400 B",
+      "contentUrl": "https://huggingface.co/datasets/dhruvsuri17/warp-opf-case118-dual/resolve/main/submission/tarballs/train.tar.gz",
+      "encodingFormat": "application/gzip",
+      "sha256": "bda8033e1f6abcafcd26a990f239eefb796d9786f3494e18533c87b40041e452"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "val.tar.gz",
+      "name": "val.tar.gz",
+      "description": "Dual-label tensors for OPFDataset split `val` (PyTorch .pt files, gzip tar).",
+      "contentSize": "2494056 B",
+      "contentUrl": "https://huggingface.co/datasets/dhruvsuri17/warp-opf-case118-dual/resolve/main/submission/tarballs/val.tar.gz",
+      "encodingFormat": "application/gzip",
+      "sha256": "1abe4bf37fb3d611a93aad449886445e1b068b061fe4ca6ade2b2e709d09e59d"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "test.tar.gz",
+      "name": "test.tar.gz",
+      "description": "Dual-label tensors for OPFDataset split `test` (PyTorch .pt files, gzip tar).",
+      "contentSize": "250336 B",
+      "contentUrl": "https://huggingface.co/datasets/dhruvsuri17/warp-opf-case118-dual/resolve/main/submission/tarballs/test.tar.gz",
+      "encodingFormat": "application/gzip",
+      "sha256": "73a8bbe156014fd7091aae0cc2b6c155bb158e9ebcc27125e56336ecd7cd9412"
+    }
+  ],
+  "rai:dataCollection": "Primal scenarios from OPFDataset; dual states from IPOPT (cyipopt, exact Hessian, tol=1e-4).",
+  "rai:dataCollectionType": "Synthetic load perturbations on pglib_opf_case118_ieee.",
+  "rai:personalSensitiveInformation": "None (synthetic).",
+  "rai:dataSocialImpact": "Potential faster OPF solves may improve grid dispatch and renewables integration; misuse could inform unrealistic market assumptions if deployed naively.",
+  "rai:dataLimitations": "Single network; extraction cost scales poorly; multiplier sparsity patterns may differ on other cases.",
+  "rai:dataBiases": "Synthetic loads may not match real operating distributions.",
+  "rai:dataUseCases": "Training/evaluating ML warm-start models for interior-point AC-OPF solvers."
+}

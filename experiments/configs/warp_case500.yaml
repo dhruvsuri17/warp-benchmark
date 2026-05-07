@@ -1,0 +1,41 @@
+experiment:
+  name: "warp_case500_fulltop"
+  case: "pglib_opf_case500_goc"
+  split: "fulltop"
+  seed: 42
+
+model:
+  type: "warp"
+  hidden_dim: 256
+  num_layers: 8
+  pe_dim: 16
+  timestep_dim: 128
+
+diffusion:
+  T: 1000
+  schedule: "cosine"
+  ddim_steps: 50
+  K: 5
+
+training:
+  epochs: 200
+  batch_size: 32
+  lr: 1.0e-4
+  lr_schedule: "cosine"
+  weight_decay: 1.0e-5
+  lambda_phy: 0.1
+  lambda_V: 1.0
+  lambda_S: 1.0
+  grad_clip: 1.0
+  mixed_precision: "bf16"
+
+eval:
+  ipopt_max_iter: 300
+  ipopt_tol: 1.0e-6
+  ipopt_linear_solver: "mumps"
+
+paths:
+  data_root: "data/opfdata"
+  checkpoint_dir: "results/checkpoints/warp_case500"
+  log_dir: "results/logs/warp_case500"
+  results_dir: "results/tables"

@@ -1,0 +1,32 @@
+experiment:
+  name: "det_gnn_case118_fulltop"
+  case: "pglib_opf_case118_ieee"
+  split: "fulltop"
+  seed: 42
+
+model:
+  type: "det_gnn"
+  hidden_dim: 256
+  num_layers: 8
+  pe_dim: 16
+  timestep_dim: 128
+
+training:
+  epochs: 100
+  batch_size: 64
+  lr: 1.0e-4
+  lr_schedule: "cosine"
+  weight_decay: 1.0e-5
+  grad_clip: 1.0
+  mixed_precision: "bf16"
+
+eval:
+  ipopt_max_iter: 300
+  ipopt_tol: 1.0e-6
+  ipopt_linear_solver: "mumps"
+
+paths:
+  data_root: "data/opfdata"
+  checkpoint_dir: "results/checkpoints/det_gnn_case118"
+  log_dir: "results/logs/det_gnn_case118"
+  results_dir: "results/tables"

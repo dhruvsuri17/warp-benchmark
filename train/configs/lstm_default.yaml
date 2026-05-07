@@ -1,0 +1,9 @@
+# IPM-LSTM-style baseline (see training/train_ipm.py for actual argparse).
+
+training:
+  epochs: 200
+  hidden_dim: 50
+  lr: 1.0e-3
+
+notes: |
+  Train with: python train/train_lstm.py --epochs 200 (plus flags supported by train_ipm.py)

@@ -1,0 +1,1 @@
+This directory is a snapshot of the repository layout before the `warp-benchmark/` public packaging (excluding large artifacts such as ckpt/, logs, and some data caches). No development code was deleted from the parent project; files were copied here for archival and reference.

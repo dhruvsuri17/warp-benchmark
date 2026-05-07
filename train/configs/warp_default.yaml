@@ -1,0 +1,18 @@
+# Reference hyperparameters (paper / Case 118 WARP-PD). CLI flags override training defaults.
+
+experiment:
+  name: warp_pd_case118_release
+  case: pglib_opf_case118_ieee
+
+training:
+  epochs: 200
+  hidden_dim: 128
+  k_steps: 15        # K in denoiser / interaction depth
+  batch_size: 32
+  lr: 3.0e-4
+  T: 1000              # diffusion steps
+  K: 5                 # inference candidates
+  ddim_steps: 50
+
+notes: |
+  Train with: python train/train_warp.py --epochs 200 --hidden-dim 128 --k-steps 15
