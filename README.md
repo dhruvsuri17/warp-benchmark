@@ -1,6 +1,16 @@
 # WARP Benchmark: Primal-Dual Warm-Starting for Interior-Point Solvers
 
-Public release layout for the WARP benchmark suite (interior-point warm starts on AC optimal power flow). **GitHub:** [github.com/dhruvsuri17/warp-benchmark](https://github.com/dhruvsuri17/warp-benchmark). After cloning, run all commands with working directory `warp-benchmark/` and `PYTHONPATH` set to `.` (or install with `pip install -e .`). Local symlinks under `data/duals` and `data/pglib_opf_case118_ieee` point into a full checkout of the development repo; if those links are broken on your machine, download tensors from the Hugging Face dataset below or regenerate them with `data/extract_duals.py`.
+Public release layout for the WARP benchmark suite (interior-point warm starts on AC optimal power flow).
+
+**Artifacts**
+
+| | Link |
+|---|------|
+| **Code** | [github.com/dhruvsuri17/warp-benchmark](https://github.com/dhruvsuri17/warp-benchmark) |
+| **Dataset (HF Hub)** | [huggingface.co/datasets/dhruvsuri17/warp-opf-case118-dual](https://huggingface.co/datasets/dhruvsuri17/warp-opf-case118-dual) — dual-label `.pt` splits (`train` / `val` / `test`), gzip tarballs under `submission/tarballs/`, `croissant.json`, and `LICENSE` |
+| **Croissant (copy in repo)** | [`croissant.json`](croissant.json) — NeurIPS E&D metadata (core + RAI); validate with `python scripts/validate_croissant.py` or the [online validator](https://huggingface.co/spaces/MLCommons/croissant-validator) |
+
+After cloning, run all commands with working directory `warp-benchmark/` and `PYTHONPATH` set to `.` (or `pip install -e .`). Local symlinks under `data/duals` and `data/pglib_opf_case118_ieee` point into a full checkout of the development repo; if those links are broken on your machine, **use the Hugging Face dataset** above or regenerate tensors with `data/extract_duals.py`.
 
 ## Layout
 
@@ -14,7 +24,7 @@ Public release layout for the WARP benchmark suite (interior-point warm starts o
 | `scripts/` | `reproduce_all.sh`, Croissant updater, figure reproduction. |
 | `huggingface/` | Dataset card template + Hub docs; publishing scripts are under `scripts/hf_publish_*.py`. |
 | `_preserved_development_tree/` | Full snapshot of the pre-release repository layout (nothing removed from development history). |
-| `croissant.json` | Machine-readable dataset metadata (NeurIPS E&D); fill OpenML ID and hashes before submission. |
+| `croissant.json` | Croissant 1.0 + RAI fields; mirrors the file published on the Hugging Face dataset repo. |
 
 ## Quick start
 
@@ -47,25 +57,25 @@ bash scripts/reproduce_all.sh
 
 ## Dataset
 
-- **Why “data” looked empty**: Large `.pt` tensors are **gitignored** on purpose (NeurIPS supplementary zip / HF/OpenML carry the bytes). In this checkout, `warp-benchmark/data/` only shipped scripts and placeholders until you generate or copy artifacts.
-- **Your machine**: Dual labels already live under the parent repo at `warp/data/duals/` (thousands of `.pt` files). This release wires them in via **`data/duals` → `../../data/duals`** so paths like `data/duals/pglib_opf_case118_ieee/train/` resolve without duplicating disk. **`data/pglib_opf_case118_ieee`** symlinks to the existing PyG **OPFDataset** cache under `warp/data/dataset_release_1/pglib_opf_case118_ieee/` so `OPFDataset(root="data", …)` works when you run from `warp-benchmark/`.
-- **Primary artifact**: PyTorch `.pt` files per instance (dual labels). Evaluation expects `data/duals/<case_name>/{train,val,test}/duals_*.pt`. For OpenML tabular export, point `upload_to_openml.py` at the folder that contains `train/`, `val/`, `test/`.
-- **Discoverability**: Upload tabular export to **OpenML** with `data/upload_to_openml.py` (`OPENML_API_KEY` **must** be supplied via environment — never commit secrets).
-- **Optional mirror**: Publish dataset card + files on Hugging Face Hub (`huggingface/README.md`).
+- **Hosted copy (recommended)**: Download from **[Hugging Face](https://huggingface.co/datasets/dhruvsuri17/warp-opf-case118-dual)** — per-split folders of `duals_*.pt`, tarball exports, dataset card (`README.md`), `croissant.json`, and `LICENSE`.
+- **Git / local checkout**: Large `.pt` tensors are **not** committed to GitHub; this repo holds code and `croissant.json`. After clone, pull data from HF or run `data/extract_duals.py`.
+- **Monorepo layout**: If you also have the parent `warp` repo, **`data/duals` → `../../data/duals`** and **`data/pglib_opf_case118_ieee`** (PyG cache) may resolve without downloading.
+- **Layout**: Evaluation expects `data/duals/<case_name>/{train,val,test}/duals_*.pt`.
+- **OpenML** (optional second registry): `data/upload_to_openml.py` with `OPENML_API_KEY` in the environment only — never commit keys. After upload, refresh Croissant URLs if you dual-publish (`scripts/update_croissant.py`, `scripts/build_release_tarballs_and_croissant.py`).
 
 ## Evaluation protocol
 
 Aligned with `eval/opf_ipopt.py`: IPOPT via cyipopt, exact Hessian, warm-start settings documented in code (`solve_opf`). Iteration counts come from the IPOPT `intermediate()` callback.
 
-## Publishing (HF / OpenML / git)
+## Publishing (updates)
 
-**Nothing is uploaded automatically.** Use [`scripts/PUBLISH.md`](scripts/PUBLISH.md): Hugging Face dataset (`scripts/hf_publish_dataset.py`), checkpoints (`scripts/hf_publish_models.py`), OpenML (`data/upload_to_openml.py`), then git push to your remote.
+Initial dataset + metadata were published to **[HF](https://huggingface.co/datasets/dhruvsuri17/warp-opf-case118-dual)** and code to **[GitHub](https://github.com/dhruvsuri17/warp-benchmark)**. To refresh uploads or add OpenML, see [`scripts/PUBLISH.md`](scripts/PUBLISH.md) (`scripts/hf_publish_dataset.py`, `scripts/hf_publish_models.py`, `data/upload_to_openml.py`).
 
-Requires `HF_TOKEN` (or `huggingface-cli login`) and `OPENML_API_KEY` as env vars — never commit tokens.
+Requires `HF_TOKEN` (or `huggingface-cli login`) and `OPENML_API_KEY` only in your environment — never commit tokens.
 
 ## Croissant
 
-Edit `croissant.json`: set `DATASET_ID` from OpenML after upload, run `python scripts/update_croissant.py`, then validate with `mlcroissant` or the [online validator](https://huggingface.co/spaces/MLCommons/croissant-validator).
+The repo root [`croissant.json`](croissant.json) matches the Hub copy. After OpenML upload, regenerate with `scripts/build_release_tarballs_and_croissant.py --openml-id <id>` if you need OpenML URLs in metadata. Validate with `python scripts/validate_croissant.py` or the [online validator](https://huggingface.co/spaces/MLCommons/croissant-validator).
 
 ## License
 
