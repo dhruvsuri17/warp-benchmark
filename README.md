@@ -1,6 +1,6 @@
 # WARP Benchmark: Primal-Dual Warm-Starting for Interior-Point Solvers
 
-Public release layout for the WARP benchmark suite (interior-point warm starts on AC optimal power flow). This folder is self-contained: run all commands with working directory `warp-benchmark/` and `PYTHONPATH` set to `.` (or install with `pip install -e .`).
+Public release layout for the WARP benchmark suite (interior-point warm starts on AC optimal power flow). **GitHub:** [github.com/dhruvsuri17/warp-benchmark](https://github.com/dhruvsuri17/warp-benchmark). After cloning, run all commands with working directory `warp-benchmark/` and `PYTHONPATH` set to `.` (or install with `pip install -e .`). Local symlinks under `data/duals` and `data/pglib_opf_case118_ieee` point into a full checkout of the development repo; if those links are broken on your machine, download tensors from the Hugging Face dataset below or regenerate them with `data/extract_duals.py`.
 
 ## Layout
 
